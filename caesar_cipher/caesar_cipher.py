@@ -54,12 +54,44 @@ def decrypt(given_string, num_shift):
 
 
 # 4. Define a function called crack.
-def crack():
-    pass
+def crack(given_string):
+    # Declare variables.
+    shift = 1
+    # Parse the string into individual "words".
+    split_string = given_string.split()
+    # print(given_string.split())
+    # Pass the first word into the decrypt function with a key of 1.
+    decoded_word = decrypt(split_string[0], shift)
+    # print(decoded_word)
 
-# Use decrypt function and run each word through using a decrypt key of 1 - 26.
-# Check if each word is in the word list.
+    # Check if the first word is in the word list.
+    def decoded_word_exists(word_to_check, shift_value):
+        if word_to_check in word_list:
+            # If yes, pass the next word into the decrypt function with the same
+            # key.
+            next_decoded_word = decrypt(split_string[0+1], shift_value)
+            decoded_word_exists(next_decoded_word, shift_value)
+            print("Next: ", next_decoded_word)
+
+    # If no, pass the same word into the decrypt function and a key
+    # incremented by 1 until the key is equal to 26.
+    def decoded_word_does_not_exist(word_to_check, shift_value):
+        if word_to_check not in word_list:
+            shift_value += 1
+            word_to_check = decrypt(split_string[0], shift_value)
+            print(decoded_word)
+
+    if decoded_word_exists(decoded_word, shift):
+        i = 1
+        decoded_word_exists(split_string[0+i])
+        print(decoded_word_exists(split_string[0+i]))
+    else:
+        shift += 1
+        decoded_word_does_not_exist(split_string[0], shift)
+        print(decoded_word_does_not_exist(split_string[0], shift))
+
 
 
 if __name__ == '__main__':
-    encrypt("BANANA!", 1)
+    # crack("Uif eph")
+    crack("Uif tang")
